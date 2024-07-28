@@ -15,12 +15,12 @@
 
 ## Installation
 
-##FRONTEND
+-**FRONTEND**
 1.cd UI
 2.npm install
 3.npm run dev
 
-##BACKEND
+-**BACKEND**
 1.cd UI
 2.npm install
 3.node app.js
