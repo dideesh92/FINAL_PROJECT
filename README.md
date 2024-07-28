@@ -24,9 +24,6 @@ BACKEND
 2.npm install
 3.node app.js
 
-Repository Link
-https://github.com/dideesh92/FINAL_PROJECT.git
-
 Workflow Daigram Link
 https://www.canva.com/design/DAGMH5ENhRM/F58Mb9OjfwnTSQKee1vsXA/edit?utm_content=DAGMH5ENhRM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
