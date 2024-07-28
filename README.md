@@ -25,6 +25,7 @@
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/billing-software.git
-cd billing-software
+~~~sh
+https://github.com/dideesh92/FINAL_PROJECT.git
+~~~
 
