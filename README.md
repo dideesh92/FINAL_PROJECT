@@ -14,6 +14,7 @@
 - **Logout**: Securely end your session.
 
 ## Installation
+
 ##FRONTEND
 1.cd UI
 2.npm install
@@ -24,7 +25,7 @@
 2.npm install
 3.node app.js
 
-###Links
+## LINKS
 
 ##Workflow Daigram Link
 https://www.canva.com/design/DAGMH5ENhRM/F58Mb9OjfwnTSQKee1vsXA/edit?utm_content=DAGMH5ENhRM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
