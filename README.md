@@ -24,8 +24,8 @@
 
 ### Clone the Repository
 
-```bash
-~~~sh
+
+~~~
 https://github.com/dideesh92/FINAL_PROJECT.git
 ~~~
 
