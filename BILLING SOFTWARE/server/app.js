@@ -5,22 +5,15 @@ const cookieParser = require("cookie-parser");
 const authRoute = require("./Routes/auth");
 const BillingCollection = require("./models/Billings");
 const Bill = require("./models/Bill");
-const { ObjectId } = mongoose.Types;
-
-// Convert string to ObjectId
-//const objectId = ObjectId("_id");
-
-// Use the ObjectId in your query
-//const item = await .findById(objectId);
-
 const app = express();
+const PORT = 5002;
 
 app.use(express.json());
 app.use(cookieParser());
 
 app.use(cors({
-  origin: "http://localhost:3001",
-  credentials: true // Add this line to allow cookies to be sent
+  origin: "http://localhost:3002",
+  credentials: true 
 }));
 
 app.use("/", authRoute);
@@ -47,22 +40,8 @@ app.post('/logout', (req, res) => {
   res.status(200).json({ message: "Logout successful" });
 });
 
-const PORT = 5002;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
 
-mongoose.connect("mongodb://localhost:27017/billing-react", {});
 
-const database = mongoose.connection;
-
-database.on("error", (error) => {
-  console.log(error);
-});
-
-database.once("connected", () => {
-  console.log("Database Connected");
-});
 
 app.post('/items', async (req, res) => {
   try {
@@ -196,36 +175,41 @@ app.get('/billdetails', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
-// In your Express.js server file
-
-// Route to update item quantity
 app.patch('/api/items/:id', async (req, res) => {
   const { id } = req.params;
   const { quantity } = req.body;
 
   try {
     const item = await Item.findById(id);
-
     if (!item) {
       return res.status(404).json({ error: 'Item not found' });
     }
-
-    // Ensure quantity is valid
     if (item.quantity < 0) {
       return res.status(400).json({ error: 'Insufficient inventory' });
     }
-
-    // Update the item quantity
     item.quantity = quantity;
     await item.save();
-
     res.json(item);
   } catch (error) {
     console.error('Error updating item quantity:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+mongoose.connect("mongodb://mongodb:27017/billing-react", {});
 
+const database = mongoose.connection;
+
+database.on("error", (error) => {
+  console.log(error);
+});
+
+database.once("connected", () => {
+  console.log("Database Connected");
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 module.exports = app;
 
