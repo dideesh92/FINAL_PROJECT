@@ -99,6 +99,21 @@ app.delete("/items/:id", async (req, res, next) => {
     next(error);
   }
 });
+//////////////////////////////////////////////////////////////
+app.delete('/billdetails/:billId', async (req, res, next) => {
+  const { billId } = req.params;  // Extract billId from request parameters
+  try {
+    const result = await Bill.findByIdAndDelete(billId);
+    if (!result) {
+      return res.status(404).send({ message: 'Bill not found' });
+    }
+    res.status(200).send({ message: 'Bill deleted successfully' });
+  } catch (error) {
+    next(error);
+  }
+});
+
+//////////////////////////////////////////////////////////////
 
 app.put('/items/:id', async (req, res) => {
   try {

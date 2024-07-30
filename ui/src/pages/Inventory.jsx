@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import search from '../assets/searchbutton.png';
 import Footer from "../components/Footer";
+import DonutChart from "../pages/InventoryDonut";
 
 const Inventory = () => {
   const [id, setId] = useState("");
@@ -62,7 +63,6 @@ const Inventory = () => {
         setItems((prevItems) => prevItems.map(item => item.id === updatedItem.id ? updatedItem : item));
         setEditingItem(null);
       } else {
-        // Add new item
         const res = await fetch("/api/items", { 
           method: "POST",
           headers: {
@@ -204,45 +204,51 @@ const Inventory = () => {
               </form>
             </div>
 
-            <div className="bg-white w-[80%] rounded-lg shadow-lg p-5">
-              <div className="overflow-x-auto">
-                <table className="w-[100%] border">
-                  <thead>
-                    <tr className="bg-yellow-200">
-                      <th className="text-[12px] border-yellow-300 px-4 py-2 text-yellow-800">ID</th>
-                      <th className="text-[12px] border-yellow-300 px-4 py-2 text-yellow-800">Name of Item</th>
-                      <th className="text-[12px] border-yellow-300 px-4 py-2 text-yellow-800">Quantity</th>
-                      <th className="text-[12px] border-yellow-300 px-4 py-2 text-yellow-800">Unit Price</th>
-                      <th className="text-[12px] border-yellow-300 px-4 py-2 text-yellow-800">GST</th>
-                      <th className="text-[12px] border-yellow-300 px-4 py-2 text-yellow-800">Total</th>
-                      <th className="text-[12px] border-yellow-300 px-4 py-2 text-yellow-800">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredItems.map((item) => (
-                      <tr key={item.id} className="hover:bg-yellow-100">
-                        <td className="border border-yellow-300 px-4 py-2 text-[12px]">{item.id}</td>
-                        <td className="border border-yellow-300 px-4 py-2 text-[12px]">{item.name}</td>
-                        <td className="border border-yellow-300 px-4 py-2 text-[12px]">{item.quantity}kg</td>
-                        <td className="border border-yellow-300 px-4 py-2 text-[12px]">Rs.{item.unitPrice}</td>
-                        <td className="border border-yellow-300 px-4 py-2 text-[12px]">Rs.{item.GST}</td>
-                        <td className="border border-yellow-300 px-4 py-2 text-[12px]">Rs.{item.quantity * item.unitPrice + item.GST}</td>
-                        <td className="border border-yellow-300 px-4 py-2 text-[12px] ">
-                          <button
-                            onClick={() => deleteItem(item.id)}
-                            className="bg-red-500 hover:bg-red-600 text-white py-1 px-5 rounded-lg mr-2 transition duration-300 ml-[28%]">
-                            Delete
-                          </button>
-                          <button
-                            onClick={() => editItem(item)}
-                            className="bg-yellow-500 hover:bg-yellow-600 text-white py-1 px-5 rounded-lg transition duration-300">
-                            Edit
-                          </button>
-                        </td>
+            <div className="flex-grow bg-white rounded-lg shadow-lg p-6">
+              <div className="flex">
+                <div className="w-3/4 overflow-x-auto">
+                  <table className="min-w-full bg-white border border-yellow-300">
+                    <thead>
+                      <tr className="bg-yellow-200">
+                        <th className="text-[12px] border-yellow-300 px-4 py-2 text-yellow-800">ID</th>
+                        <th className="text-[12px] border-yellow-300 px-4 py-2 text-yellow-800">Name of Item</th>
+                        <th className="text-[12px] border-yellow-300 px-4 py-2 text-yellow-800">Quantity</th>
+                        <th className="text-[12px] border-yellow-300 px-4 py-2 text-yellow-800">Unit Price</th>
+                        <th className="text-[12px] border-yellow-300 px-4 py-2 text-yellow-800">GST</th>
+                        <th className="text-[12px] border-yellow-300 px-4 py-2 text-yellow-800">Total</th>
+                        <th className="text-[12px] border-yellow-300 px-4 py-2 text-yellow-800">Actions</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {filteredItems.map((item) => (
+                        <tr key={item.id} className="hover:bg-yellow-100">
+                          <td className="border border-yellow-300 px-4 py-2 text-[12px]">{item.id}</td>
+                          <td className="border border-yellow-300 px-4 py-2 text-[12px]">{item.name}</td>
+                          <td className="border border-yellow-300 px-4 py-2 text-[12px]">{item.quantity}kg</td>
+                          <td className="border border-yellow-300 px-4 py-2 text-[12px]">Rs.{item.unitPrice}</td>
+                          <td className="border border-yellow-300 px-4 py-2 text-[12px]">Rs.{item.GST}</td>
+                          <td className="border border-yellow-300 px-4 py-2 text-[12px]">Rs.{item.quantity * item.unitPrice + item.GST}</td>
+                          <td className="border border-yellow-300 px-4 py-2 text-[12px]">
+                            <button
+                              onClick={() => deleteItem(item.id)}
+                              className="bg-red-500 hover:bg-red-600 text-white py-1 px-5 rounded-lg mr-2 transition duration-300 ml-[28%]">
+                              Delete
+                            </button>
+                            <button
+                              onClick={() => editItem(item)}
+                              className="bg-yellow-500 hover:bg-yellow-600 text-white py-1 px-5 rounded-lg mr-2  transition duration-300 ml-[28%]">
+                              Edit
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="w-1/4 ml-8">
+                  <h2 className="text-center">Stock</h2>
+                  <DonutChart items={filteredItems} />
+                </div>
               </div>
             </div>
           </div>

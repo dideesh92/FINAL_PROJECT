@@ -106,7 +106,6 @@ const Bill = () => {
           })
         )
       );
-
       toast.success("Bill submitted successfully and inventory updated");
     } catch (error) {
       console.error("Failed to submit bill or update inventory:", error);

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
+import ItemsDonutChart from '../pages/itemdonutchart';
 
 const SavedBills = () => {
   const [billdetails, setBilldetails] = useState([]);
@@ -21,6 +23,24 @@ const SavedBills = () => {
     };
     fetchBill();
   }, []);
+
+  const deleteBill = async (billId) => {
+    try {
+      const res = await fetch(`/api/billdetails/${billId}`, {
+        method: 'DELETE',
+      });
+      if (res.ok) {
+        setBilldetails(prevDetails => prevDetails.filter(bill => bill._id !== billId));
+        toast.success("Bill deleted successfully");
+      } else {
+        console.log("Failed to delete");
+        toast.error("Failed to delete bill");
+      }
+    } catch (error) {
+      console.log("Error", error);
+      toast.error("Error deleting bill");
+    }
+  };
 
   const calculateGrandTotal = (items) => {
     return items.reduce((total, item) => total + (item.unitPrice * item.quantity + item.GST), 0).toFixed(2);
@@ -48,6 +68,17 @@ const SavedBills = () => {
 
   const sumOfGrandTotals = calculateSumOfGrandTotals(filteredBills);
 
+  const allItems = filteredBills.flatMap(bill => bill.items);
+  const itemQuantities = allItems.reduce((acc, item) => {
+    const existingItem = acc.find(entry => entry.name === item.name);
+    if (existingItem) {
+      existingItem.quantity += item.quantity;
+    } else {
+      acc.push({ name: item.name, quantity: item.quantity });
+    }
+    return acc;
+  }, []);
+
   return (
     <div className="p-8 bg-cover bg-center bg-gradient-to-r from-pink-500 via-red-500 to-violet-600 min-h-screen flex items-center justify-center">
       <div className="bg-white shadow-lg rounded-lg overflow-hidden w-full">
@@ -63,6 +94,8 @@ const SavedBills = () => {
             Credit: {sumOfGrandTotals}
           </div>
         </div>
+        <h1 className='text-center'>Sales chart</h1>
+        <ItemsDonutChart items={itemQuantities} /> 
         <table className="min-w-full border-collapse">
           <thead className="bg-gray-800 text-white">
             <tr>
@@ -76,6 +109,7 @@ const SavedBills = () => {
               <th className="py-3 px-5 text-left">GST</th>
               <th className="py-3 px-5 text-left">Total</th>
               <th className="py-3 px-5 text-left">Grand Total</th>
+              <th className="py-3 px-5 text-left">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -97,6 +131,15 @@ const SavedBills = () => {
                       {itemIndex === 0 && (
                         <td rowSpan={bill.items.length} className="py-3 px-5 text-right bg-yellow-100 font-bold text-green-700 border-1 border-black">
                           {grandTotal}
+                        </td>
+                      )}
+                      {itemIndex === 0 && (
+                        <td rowSpan={bill.items.length} className="py-3 px-5 text-right">
+                          <button
+                            onClick={() => deleteBill(bill._id)}
+                            className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded-lg transition duration-300">
+                            Delete
+                          </button>
                         </td>
                       )}
                     </tr>
