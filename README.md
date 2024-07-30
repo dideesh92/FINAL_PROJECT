@@ -2,7 +2,7 @@
 
 ## Overview
 
-**Billing Software** is a MERN stack application designed for efficient billing management. It includes features like user authentication, inventory management, bill creation, and storage.Inventory will be updated whenever a bill is saved which facilitate stock management easily, also provided a donut daigram to identify the stock details in inventory as well as in saved bills where we can figure out the range of sales of items which are being sold.From this module we can easily analyse and update the business stratagy
+**Billing Software** is a MERN stack application designed for efficient billing management. It includes features like user authentication, inventory management, bill creation, and storage.Inventory will be updated whenever a bill is saved which facilitate stock management easily, also provided a donut daigram to identify the stock details in inventory as well as in saved bills where we can figure out the range of sales of items which are being sold.Beside search option is added in both the inventory and saved pages makes the things easier.Moreover once you generate the bill,the total amount credited has implemented here in the saved page.From this module we can easily analyse and update the business stratagy
 
 ## Features
 
